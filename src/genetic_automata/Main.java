@@ -94,5 +94,6 @@ public class Main extends JFrame {
 		algorithm.runEpochs();
 		
 		displayPanel.showFitnessChart();
+		displayPanel.showDFAGraph();
 	}
 }

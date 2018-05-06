@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class DFA {
 	// Number of states in the DFA.
-	public static final int STATE_COUNT = 10;
+	public static final int STATE_COUNT = 5;
 
 	// Size of the alphabet recognized by the DFA.
 	public static final int ALPHABET_SIZE = 2;

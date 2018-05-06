@@ -216,6 +216,10 @@ public class GeneticAlgorithm {
 		return bestFitnessOverEpochs;
 	}
 	
+	public List<DFA> getPopulation() {
+		return population;
+	}
+	
 	public int getCurrentEpoch() {
 		return currentEpoch;
 	}
