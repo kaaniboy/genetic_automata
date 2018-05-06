@@ -18,6 +18,11 @@ public class GeneticAlgorithm {
 	// The maximum number of iterations to run the genetic algorithm.
 	public static final int MAX_EPOCHS = 1000;
 
+	// Average fitness at each epoch.
+	private List<Double> avgFitnessOverEpochs;
+	// Best fitness at each epoch.
+	private List<Double> bestFitnessOverEpochs;
+
 	private List<DFA> population;
 
 	// Training examples for the genetic algorithm.
@@ -29,7 +34,10 @@ public class GeneticAlgorithm {
 	public GeneticAlgorithm(String[] inputs, boolean[] expected) {
 		initializePopulation();
 		rand = new Random();
-
+		
+		avgFitnessOverEpochs = new ArrayList<>();
+		bestFitnessOverEpochs = new ArrayList<>();
+		
 		this.inputs = inputs;
 		this.expected = expected;
 	}
@@ -96,15 +104,12 @@ public class GeneticAlgorithm {
 
 		for (int y = 0; y < DFA.STATE_COUNT; y++) {
 			for (int x = 0; x < DFA.ALPHABET_SIZE; x++) {
-				// Choose the child's delta from either to first or second
-				// parent.
+				// Choose the child's delta from either to first or second parent.
 				if (y >= crossoverRow && x >= crossoverCol) {
-					// If after the crossover point, use the second parent's
-					// delta function.
+					// If after the crossover point, use the second parent's delta function.
 					childDelta[y][x] = second.getDelta()[y][x];
 				} else {
-					// If before the crossover point, use the first parent's
-					// delta function.
+					// If before the crossover point, use the first parent's delta function.
 					childDelta[y][x] = first.getDelta()[y][x];
 				}
 			}
@@ -133,7 +138,7 @@ public class GeneticAlgorithm {
 	}
 
 	// Calculate the average fitness of the entire population.
-	private double calculateAverageFitness() {
+	private double calculateAvgFitness() {
 		double fitnessSum = 0;
 
 		for (DFA dfa : population) {
@@ -147,20 +152,21 @@ public class GeneticAlgorithm {
 	public DFA runEpochs() {
 		int epoch = 0;
 		double bestFitness = 0;
-		
+
 		while (bestFitness != 1.0 && epoch <= MAX_EPOCHS) {
 			epoch++;
-			
+
 			calculatePopulationFitness();
-			
+
+			// Log data regarding the best/average fitness of the current epoch's population.
+			avgFitnessOverEpochs.add(calculateAvgFitness());
+			bestFitnessOverEpochs.add(population.get(0).getFitness());
+
 			// The optimal DFA has been created, so the algorithm can be terminated.
 			if (population.get(0).getFitness() == 1.0) {
 				break;
 			}
 
-			double avgFitness = calculateAverageFitness();
-			System.out.printf("EPOCH %d AVG FITNESS: %f\n", epoch, avgFitness);
-			
 			List<DFA> nextPopulation = new ArrayList<>();
 
 			// Add the best DFAs of the current population to the next
@@ -169,8 +175,7 @@ public class GeneticAlgorithm {
 				nextPopulation.add(population.get(i));
 			}
 
-			// Add children of DFAs chosen via roulette selection to the next
-			// population.
+			// Add children of DFAs chosen via roulette selection to the next population.
 			for (int i = 0; i < POPULATION_SIZE - ELITISM_OFFSET; i++) {
 				nextPopulation.add(crossover(rouletteSelect(), rouletteSelect()));
 			}
@@ -189,5 +194,13 @@ public class GeneticAlgorithm {
 		// Return the best DFA of the final population.
 		population.sort(new FitnessComparator());
 		return population.get(0);
+	}
+
+	public List<Double> getAvgFitnessOverEpochs() {
+		return avgFitnessOverEpochs;
+	}
+	
+	public List<Double> getBestFitnessOverEpochs() {
+		return bestFitnessOverEpochs;
 	}
 }

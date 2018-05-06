@@ -1,16 +1,49 @@
 package genetic_automata;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class GUI {
+import javax.swing.JFrame;
+
+public class Main extends JFrame {
+	// Dimensions of the GUI window.
+	public static final int WIDTH = 820;
+	public static final int HEIGHT = 600;
+	
+	// Various subpanels of the GUI.
+	private static ControlsPanel controlsPanel;
+	private static DisplayPanel displayPanel;
+	
 	public static final int TRAINING_SIZE = 100;
 	private static List<String> inputs;
 	private static List<Boolean> expected;
 	
+	public static GeneticAlgorithm algorithm;
+	
+	public Main() {
+		controlsPanel = new ControlsPanel();
+		displayPanel = new DisplayPanel();
+		
+		setSize(WIDTH, HEIGHT);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setTitle("Genetic Automata - Kaan Aksoy");
+		
+		Container cont = getContentPane();
+		cont.setLayout(new BorderLayout());
+		
+		cont.add(controlsPanel, BorderLayout.WEST);
+		cont.add(displayPanel, BorderLayout.CENTER);
+	}
+	
 	public static void main(String[] args) {
+		Main gui = new Main();
+		gui.setVisible(true);
+		
 		createTrainingExamples();
 		
 		String[] inputsArray = new String[TRAINING_SIZE];
@@ -21,12 +54,11 @@ public class GUI {
 			expectedArray[i] = expected.get(i);
 		}
 		
-		GeneticAlgorithm ga = new GeneticAlgorithm(inputsArray, expectedArray);
+		algorithm = new GeneticAlgorithm(inputsArray, expectedArray);
+		algorithm.runEpochs();
+		System.out.println("GA Completed");
 		
-		DFA best = ga.runEpochs();
-		System.out.println(best.calculateFitness(inputsArray, expectedArray));
-		
-		System.out.println(best.run("01011"));
+		displayPanel.showFitnessChart();
 	}
 	
 	// Create training examples for the language: binary numbers that are a multiple of 5.
