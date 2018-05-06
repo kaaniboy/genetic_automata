@@ -59,9 +59,7 @@ public class DisplayPanel extends JPanel {
 	
 	// Create graph representing the best DFA produced by the genetic algorithm.
 	public mxGraphComponent createDFAGraph() {
-		
 		mxGraph dfaGraph = new mxGraph();
-		
 		Object parent = dfaGraph.getDefaultParent();
 		
 		mxStylesheet stylesheet = dfaGraph.getStylesheet();
@@ -70,6 +68,7 @@ public class DisplayPanel extends JPanel {
 		Hashtable<String, Object> roundedStyle = new Hashtable<String, Object>();
 		roundedStyle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		
+		// Make accept states have a double circle.
 		Hashtable<String, Object> acceptStyle = new Hashtable<String, Object>();
 		acceptStyle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		
@@ -85,7 +84,6 @@ public class DisplayPanel extends JPanel {
 			List<Object> states = new ArrayList<>();
 			
 			for (int i = 0; i < DFA.STATE_COUNT; i++) {
-				// Accept states are green, the others are white.
 				String options = bestDFA.getAcceptStates()[i] ? "ACCEPT;" : "ROUNDED;";
 				
 				String stateTitle = "Q" + i;
