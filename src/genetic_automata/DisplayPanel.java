@@ -3,6 +3,7 @@ package genetic_automata;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -79,6 +80,9 @@ public class DisplayPanel extends JPanel {
 		
 		// Retrieve the best DFA produced by the genetic algorithm.
 		DFA bestDFA = Main.algorithm.getPopulation().get(0);
+		System.out.println(Arrays.toString(bestDFA.getAcceptStates()));
+		
+		System.out.println(bestDFA.run("1010"));
 		
 		try {
 			List<Object> states = new ArrayList<>();

@@ -72,7 +72,8 @@ public class DFA {
 	 * otherwise.
 	 */
 	public boolean run(String input) {
-		int state = 0;
+		// Start from the start state.
+		int state = startState;
 
 		for (char c : input.toCharArray()) {
 			int symbol = Character.getNumericValue(c);
