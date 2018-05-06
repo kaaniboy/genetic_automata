@@ -15,7 +15,7 @@ public class Main extends JFrame {
 	public static final int HEIGHT = 600;
 	
 	// Various subpanels of the GUI.
-	private static ControlsPanel controlsPanel;
+	private static LeftPanel controlsPanel;
 	private static DisplayPanel displayPanel;
 	
 	public static final int TRAINING_SIZE = 100;
@@ -25,7 +25,7 @@ public class Main extends JFrame {
 	public static GeneticAlgorithm algorithm;
 	
 	public Main() {
-		controlsPanel = new ControlsPanel();
+		controlsPanel = new LeftPanel();
 		displayPanel = new DisplayPanel();
 		
 		setSize(WIDTH, HEIGHT);
@@ -45,20 +45,6 @@ public class Main extends JFrame {
 		gui.setVisible(true);
 		
 		createTrainingExamples();
-		
-		String[] inputsArray = new String[TRAINING_SIZE];
-		boolean[] expectedArray = new boolean[TRAINING_SIZE];
-		
-		for (int i = 0; i < TRAINING_SIZE; i++) {
-			inputsArray[i] = inputs.get(i);
-			expectedArray[i] = expected.get(i);
-		}
-		
-		algorithm = new GeneticAlgorithm(inputsArray, expectedArray);
-		algorithm.runEpochs();
-		System.out.println("GA Completed");
-		
-		displayPanel.showFitnessChart();
 	}
 	
 	// Create training examples for the language: binary numbers that are a multiple of 5.
@@ -89,5 +75,24 @@ public class Main extends JFrame {
 				count++;
 			}
 		}
+	}
+
+	// Start the algorithm with the settings specified by the user in the settings panel.
+	public static void startAlgorithm(int populationSize, int elitismOffset, double mutationRate, int epochs) {
+		// Convert lists to arrays before passing to the algorithm.
+		String[] inputsArray = new String[TRAINING_SIZE];
+		boolean[] expectedArray = new boolean[TRAINING_SIZE];
+		
+		for (int i = 0; i < TRAINING_SIZE; i++) {
+			inputsArray[i] = inputs.get(i);
+			expectedArray[i] = expected.get(i);
+		}
+		
+		algorithm = new GeneticAlgorithm(inputsArray, expectedArray);
+		algorithm.setSettings(populationSize, elitismOffset, mutationRate, epochs);
+		
+		algorithm.runEpochs();
+		
+		displayPanel.showFitnessChart();
 	}
 }

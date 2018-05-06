@@ -14,7 +14,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class DisplayPanel extends JPanel {
 	public DisplayPanel() {
-		setPreferredSize(new Dimension(Main.WIDTH - ControlsPanel.WIDTH, Main.HEIGHT));
+		setPreferredSize(new Dimension(Main.WIDTH - LeftPanel.WIDTH, Main.HEIGHT));
 		setLayout(new BorderLayout());
 	}
 	
@@ -52,7 +52,7 @@ public class DisplayPanel extends JPanel {
 	
 	// Create the fitness over epochs chart.
 	private ChartPanel createFitnessChart() {
-		String title = "Fitness Over Epochs";
+		String title = "DFA Fitness Over Epochs";
 		String xAxisLabel = "Epoch";
 		String yAxisLabel = "Fitness";
 		

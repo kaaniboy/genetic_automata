@@ -7,23 +7,27 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 	// Size of the population of DFAs.
-	public static final int POPULATION_SIZE = 100;
+	public static int POPULATION_SIZE = 200;
 
 	// Number of DFAs to keep (without changing at all) across generations.
-	public static final int ELITISM_OFFSET = 30;
+	public static int ELITISM_OFFSET = 30;
 
 	// Probability of a DFA being selected for mutation.
-	public static final double MUTATION_RATE = 0.05;
+	public static double MUTATION_RATE = 0.2;
 
 	// The maximum number of iterations to run the genetic algorithm.
-	public static final int MAX_EPOCHS = 1000;
+	public static int MAX_EPOCHS = 1000;
 
 	// Average fitness at each epoch.
 	private List<Double> avgFitnessOverEpochs;
 	// Best fitness at each epoch.
 	private List<Double> bestFitnessOverEpochs;
 
+	// The population of DFAs.
 	private List<DFA> population;
+	
+	// Tracks the current epoch in the algorithm.
+	private int currentEpoch = 0;
 
 	// Training examples for the genetic algorithm.
 	private String[] inputs;
@@ -150,11 +154,10 @@ public class GeneticAlgorithm {
 
 	// Run the genetic algorithm and return the best DFA.
 	public DFA runEpochs() {
-		int epoch = 0;
 		double bestFitness = 0;
 
-		while (bestFitness != 1.0 && epoch <= MAX_EPOCHS) {
-			epoch++;
+		while (bestFitness != 1.0 && currentEpoch <= MAX_EPOCHS) {
+			currentEpoch++;
 
 			calculatePopulationFitness();
 
@@ -195,6 +198,15 @@ public class GeneticAlgorithm {
 		population.sort(new FitnessComparator());
 		return population.get(0);
 	}
+	
+	public void setSettings(int populationSize, int elitismOffset, double mutationRate, int epochs) {
+		POPULATION_SIZE = populationSize;
+		ELITISM_OFFSET = elitismOffset;
+		MUTATION_RATE = mutationRate;
+		MAX_EPOCHS = epochs;
+		
+		initializePopulation();
+	}
 
 	public List<Double> getAvgFitnessOverEpochs() {
 		return avgFitnessOverEpochs;
@@ -202,5 +214,9 @@ public class GeneticAlgorithm {
 	
 	public List<Double> getBestFitnessOverEpochs() {
 		return bestFitnessOverEpochs;
+	}
+	
+	public int getCurrentEpoch() {
+		return currentEpoch;
 	}
 }
