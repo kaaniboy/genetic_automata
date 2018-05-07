@@ -9,7 +9,7 @@ public class GeneticAlgorithm {
 	// Size of the population of DFAs.
 	public static int POPULATION_SIZE = 200;
 
-	// Number of DFAs to keep (without changing at all) across generations.
+	// Number of DFAs to keep (without changing at all) across epochs.
 	public static int ELITISM_OFFSET = 30;
 
 	// Probability of a DFA being selected for mutation.
@@ -84,7 +84,7 @@ public class GeneticAlgorithm {
 		for (DFA dfa : population) {
 			threshold += dfa.getFitness() / fitnessSum;
 
-			// Choose the DFA if it is less than the current threshold.
+			// Choose the DFA if the value is less than the current threshold.
 			if (value <= threshold) {
 				return dfa;
 			}
@@ -93,7 +93,7 @@ public class GeneticAlgorithm {
 		return null;
 	}
 
-	// Create a new DFA from the crossover of two parent DFAs.
+	// Create a new child DFA from the crossover of two parent DFAs.
 	private DFA crossover(DFA first, DFA second) {
 		// Attributes of the new child DFA being created.
 		int[][] childDelta = new int[DFA.STATE_COUNT][DFA.ALPHABET_SIZE];
@@ -108,7 +108,7 @@ public class GeneticAlgorithm {
 
 		for (int y = 0; y < DFA.STATE_COUNT; y++) {
 			for (int x = 0; x < DFA.ALPHABET_SIZE; x++) {
-				// Choose the child's delta from either to first or second parent.
+				// Choose the child's delta from either the first or second parent.
 				if (y >= crossoverRow && x >= crossoverCol) {
 					// If after the crossover point, use the second parent's delta function.
 					childDelta[y][x] = second.getDelta()[y][x];
@@ -172,8 +172,7 @@ public class GeneticAlgorithm {
 
 			List<DFA> nextPopulation = new ArrayList<>();
 
-			// Add the best DFAs of the current population to the next
-			// population.
+			// Add the best DFAs of the current population to the next population.
 			for (int i = 0; i < ELITISM_OFFSET; i++) {
 				nextPopulation.add(population.get(i));
 			}
@@ -199,6 +198,7 @@ public class GeneticAlgorithm {
 		return population.get(0);
 	}
 	
+	// Set various parameters of the genetic algorithm.
 	public void setSettings(int populationSize, int elitismOffset, double mutationRate, int epochs) {
 		POPULATION_SIZE = populationSize;
 		ELITISM_OFFSET = elitismOffset;

@@ -18,6 +18,7 @@ public class Main extends JFrame {
 	private static LeftPanel controlsPanel;
 	private static DisplayPanel displayPanel;
 	
+	// Training data for the genetic algorithm.
 	public static final int TRAINING_SIZE = 100;
 	private static List<String> inputs;
 	private static List<Boolean> expected;
@@ -41,10 +42,11 @@ public class Main extends JFrame {
 	}
 	
 	public static void main(String[] args) {
+		createTrainingExamples();
+		
+		// Start the application.
 		Main gui = new Main();
 		gui.setVisible(true);
-		
-		createTrainingExamples();
 	}
 	
 	// Create training examples for the language: binary numbers that are a multiple of 5.
@@ -69,6 +71,7 @@ public class Main extends JFrame {
 		while (count < TRAINING_SIZE / 2) {
 			num = rand.nextInt(1000);
 			
+			// Only use the number if it isn't a multiple of 5.
 			if (num % 5 != 0) {
 				inputs.add(Integer.toBinaryString(num));
 				expected.add(false);

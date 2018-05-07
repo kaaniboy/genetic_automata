@@ -1,6 +1,5 @@
 package genetic_automata;
 
-import java.util.HashSet;
 import java.util.Random;
 
 public class DFA {
@@ -59,7 +58,7 @@ public class DFA {
 		fitness = 0;
 	}
 
-	// Create a DFA with the specified delta function and accept states.
+	// Create a DFA with the specified delta function, accept states, and start state.
 	public DFA(int[][] delta, boolean[] acceptStates, int startState) {
 		this.delta = delta;
 		this.acceptStates = acceptStates;
@@ -119,8 +118,6 @@ public class DFA {
 				acceptStates[i] = !acceptStates[i];
 			}
 		}
-		
-		// TODO: Not sure if it makes sense to mutate the start state.
 	}
 	
 	public int[][] getDelta() {
@@ -135,7 +132,7 @@ public class DFA {
 		return startState;
 	}
 	
-	// Returns the fitness only AFTER it has been calculated earlier.
+	// Returns the fitness only AFTER it has been calculated by calculateFitness(...).
 	public double getFitness() {
 		return fitness;
 	}

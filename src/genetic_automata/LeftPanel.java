@@ -20,6 +20,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class LeftPanel extends JPanel {
+	// Width of the left panel.
 	public static final int WIDTH = 220;
 	
 	// Fields allowing the user to specify properties of the genetic algorithm.
@@ -70,6 +71,7 @@ public class LeftPanel extends JPanel {
 		JPanel mutationRow = new JPanel(new BorderLayout());
 		JPanel epochsRow = new JPanel(new BorderLayout());
 		
+		// Create fields for each of the settings.
 		populationField = new JTextField("200", 5);
 		elitismField = new JTextField("30", 5);
 		mutationField = new JTextField("0.20", 5);
@@ -103,6 +105,7 @@ public class LeftPanel extends JPanel {
 
 		JButton startButton = new JButton("Start Algorithm");
 
+		// Start the genetic algorithm when the button is clicked.
 		startButton.addActionListener((e) -> startAlgorithm());
 
 		buttonPanel.add(startButton);
@@ -110,6 +113,7 @@ public class LeftPanel extends JPanel {
 		return buttonPanel;
 	}
 	
+	// Create the outcome panel to show the output of the algorithm.
 	private JPanel createOutcomePanel() {
 		JPanel outcomePanel = new JPanel();
 		outcomePanel.setPreferredSize(new Dimension(WIDTH, 120));

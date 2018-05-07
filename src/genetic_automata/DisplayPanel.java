@@ -28,6 +28,7 @@ public class DisplayPanel extends JPanel {
 	// Size (in pixels) of states in the DFA that is displayed.
 	public static final int STATE_SIZE = 30;
 	
+	// Positions to draw states of the DFA.
 	public static int[] X_POSITIONS = new int[] { 120, 20, 220, 40, 200 };
 	public static int[] Y_POSITIONS = new int[] { 20, 120, 120, 200, 200 }; 
 	
@@ -55,7 +56,7 @@ public class DisplayPanel extends JPanel {
 		dfaGraphPanel.removeAll();
 		dfaGraphPanel.revalidate();
 		
-		dfaGraphPanel.add(createDFAGraph(), BorderLayout.NORTH);
+		dfaGraphPanel.add(createDFAGraph(), BorderLayout.CENTER);
 	}
 	
 	// Create graph representing the best DFA produced by the genetic algorithm.
@@ -80,9 +81,6 @@ public class DisplayPanel extends JPanel {
 		
 		// Retrieve the best DFA produced by the genetic algorithm.
 		DFA bestDFA = Main.algorithm.getPopulation().get(0);
-		System.out.println(Arrays.toString(bestDFA.getAcceptStates()));
-		
-		System.out.println(bestDFA.run("1010"));
 		
 		try {
 			List<Object> states = new ArrayList<>();
@@ -111,8 +109,6 @@ public class DisplayPanel extends JPanel {
 				dfaGraph.insertEdge(parent, null, "1", states.get(y), states.get(bestDFA.getDelta()[y][1]));
 			}
 			
-			dfaGraph.insertEdge(parent, null, "DANK", null, states.get(0));
-			
 			// Prevent overlapping of edges.
 		    new mxParallelEdgeLayout(dfaGraph).execute(parent);
 		} finally {
@@ -130,6 +126,7 @@ public class DisplayPanel extends JPanel {
 		// Delete the prior fitness chart.
 		fitnessChartPanel.removeAll();
 		fitnessChartPanel.revalidate();
+		fitnessChartPanel.repaint();
 		
 		fitnessChartPanel.add(new JLabel(chartImage));
 		// Must validate for the chart to be displayed.
@@ -169,6 +166,7 @@ public class DisplayPanel extends JPanel {
 		
 		JFreeChart chart = ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, chartData);
 		
+		// Return an image of the chart.
 		return new ImageIcon(chart.createBufferedImage(Main.WIDTH - LeftPanel.WIDTH, Main.HEIGHT / 2));
 	}
 }

@@ -3,7 +3,6 @@ package genetic_automata;
 import java.util.Comparator;
 
 // Necessary to compare and sort DFAs based on their fitness.
-
 public class FitnessComparator implements Comparator<DFA> {
 
 	@Override
