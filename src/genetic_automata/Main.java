@@ -1,3 +1,24 @@
+/*
+ * KAAN AKSOY (1210619069)
+ * CSE355 Honors Contract, 5/06/2018
+ * 
+ * This application uses genetic algorithms to 
+ * automatically generate deterministic finite
+ * automata for given languages. In this case,
+ * the target language is the set of all binary
+ * strings that are divisible by 5. The application
+ * allows the user to specify various parameters
+ * for the algorithm (ie, the mutation rate and
+ * population size). It also allows the user to
+ * view a visual representation of the created
+ * DFA as well as a graph of how DFA fitness
+ * changes across epochs.
+ * 
+ * The application uses the JFreeChart library to
+ * create charts, and the JGraphX library to 
+ * create DFA visualizations.
+ * 
+ */
 package genetic_automata;
 
 import java.awt.BorderLayout;
